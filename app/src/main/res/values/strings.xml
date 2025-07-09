@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">AndroidBorrador</string>
+    <string name="Hombre">Hombre</string>
+    <string name="Mujer">Mujer</string>
+    <string name="altura">Altura</string>
+    <string name="peso">peso</string>
+    <string name="age">Edad</string>
+    <string name="calculate">calculate</string>
+    <string name="result">Tu Resultado</string>
+    <string name="recalculate">re-calculate</string>
+    <string name="error">error</string>
+
+    <string name="title_bajo_peso">Bajo Peso</string>
+    <string name="description_bajo_peso">Estás por debajo de lo óptimo para tu peso y altura.</string>
+
+    <string name="title_bajo_normal">Normal</string>
+    <string name="description_peso_normal">Estás en lo óptimo para tu peso y altura.</string>
+
+    <string name="title_sobre_peso">Sobre Peso</string>
+    <string name="description_sobre_peso">Estás por incima de lo óptimo parar tu peso y altura.</string>
+
+    <string name="title_obesidad">Obesidad</string>
+    <string name="description_obesidad">Estás MUY por encima de lo óptimo parar tu peso y altura</string>
+
+    <!--ToDoApp-->
+    <string name="toDo_title">Bienvenido Saulo</string>
+    <string name="ToDo_categories">Categorías</string>
+    <string name="todo_task">Tareas</string>
+    <string name="todo_dialog_add_task">Añade la tarea</string>
+    <string name="todo_add_task">Crear tarea</string>
+    <string name="todo_category_other">Other</string>
+    <string name="todo_category_personal">Personal</string>
+    <string name="todo_category_busines">Negocios</string>
+</resources>
