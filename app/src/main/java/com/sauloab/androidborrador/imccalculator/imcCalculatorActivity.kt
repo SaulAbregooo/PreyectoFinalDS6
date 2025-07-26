@@ -4,7 +4,6 @@ import android.content.Intent
 import android.icu.text.DecimalFormat
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -12,34 +11,36 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.slider.RangeSlider
 import com.sauloab.androidborrador.R
+
 @RequiresApi(Build.VERSION_CODES.N)
 class imcCalculatorActivity : AppCompatActivity() {
 
-    private lateinit var viewMale: CardView  // estoy declarando unas funciones globales que se inicia más tardes
-    private lateinit var viewFemale: CardView // las declaro aqui y no en la funcion principal para que otros metodos
-    private lateinit var tvAltura: TextView //txv dodne se van a cambair los cm segun movamos el rs
-    private lateinit var rsAltura: RangeSlider //rs que dara el numero ah poner dentro del txv
-    private lateinit var btSubtractWeight: FloatingActionButton //basicamente se trata de un tipo diferente de button
+    // Declaración de componentes de UI
+    private lateinit var viewMale: CardView
+    private lateinit var viewFemale: CardView
+    private lateinit var tvAltura: TextView
+    private lateinit var rsAltura: RangeSlider
+    private lateinit var btSubtractWeight: FloatingActionButton
     private lateinit var btSumWeight: FloatingActionButton
     private lateinit var tvWeight: TextView
-    private lateinit var tvAge:TextView
-    private lateinit var btnSumAge:FloatingActionButton
-    private lateinit var btnsubstractAge:FloatingActionButton
-    private lateinit var btnCalculate:Button
+    private lateinit var tvAge: TextView
+    private lateinit var btnSumAge: FloatingActionButton
+    private lateinit var btnsubstractAge: FloatingActionButton
+    private lateinit var btnCalculate: Button
+    private lateinit var btnHistorial: Button
 
-    private var currentHeight :Int = 120
-    private var currentWeight :Int = 70
-    private var currentAge :Int = 25
-    //tengan acceso a esta dentro de mi clase, por eso el private
+    // Variables para los valores actuales
+    private var currentHeight: Int = 120
+    private var currentWeight: Int = 70
+    private var currentAge: Int = 25
     private var isMaleSelected: Boolean = false
     private var isFemaleSelected: Boolean = false
 
-    companion object{//este se declara par para que todos los vean esta propiedad
+    // Constante para pasar el IMC entre actividades
+    companion object {
         const val IMC_KEY = "IMC"
     }
 
@@ -52,6 +53,7 @@ class imcCalculatorActivity : AppCompatActivity() {
         intUI()
     }
 
+    // Inicializa referencias de los elementos de UI
     private fun initComponet() {
         viewMale = findViewById(R.id.viewHombre)
         viewFemale = findViewById(R.id.viewMujer)
@@ -64,24 +66,20 @@ class imcCalculatorActivity : AppCompatActivity() {
         btnSumAge = findViewById(R.id.btnSumAge)
         tvAge = findViewById(R.id.tvAge)
         btnCalculate = findViewById(R.id.btnCalculate)
-
+        btnHistorial = findViewById(R.id.btnHistorial)
     }
 
-
+    // Asigna acciones a los botones y sliders
     private fun intListeners() {
         viewMale.setOnClickListener {
-            if (!isMaleSelected) {//SI mi hombre es false haz los siguiente, si es true no hagas nada
+            if (!isMaleSelected) {
                 isMaleSelected = true
                 isFemaleSelected = false
-                /*¿Porque de esto?
-            lo declaro antes de cambiar los colores, cambio los generos cuadno hago click
-            al cardview y activo el listener del genero  cambiando el valor del boleand del genero para que
-            este pueda funcionar correctamente en mi funcion.
-            */
                 setGenderColor()
             }
         }
-        viewFemale.setOnClickListener {//SI mi mujer es false haz los siguiente, si es true no hagas nada
+
+        viewFemale.setOnClickListener {
             if (!isFemaleSelected) {
                 isMaleSelected = false
                 isFemaleSelected = true
@@ -89,9 +87,8 @@ class imcCalculatorActivity : AppCompatActivity() {
             }
         }
 
-        rsAltura.addOnChangeListener() { _, value, _ ->
-
-            val decimalformat = DecimalFormat("#.##")
+        rsAltura.addOnChangeListener { _, value, _ ->
+            val decimalformat = DecimalFormat("#")
             currentHeight = decimalformat.format(value).toInt()
             tvAltura.text = "$currentHeight cm"
         }
@@ -100,64 +97,77 @@ class imcCalculatorActivity : AppCompatActivity() {
             currentWeight += 1
             setWieght()
         }
+
         btSubtractWeight.setOnClickListener {
             currentWeight -= 1
             setWieght()
         }
 
-        btnSumAge.setOnClickListener{
-            currentAge +=1
-            setAge()
-        }
-        btnsubstractAge.setOnClickListener {
-            currentAge -=1
+        btnSumAge.setOnClickListener {
+            currentAge += 1
             setAge()
         }
 
-        btnCalculate.setOnClickListener{
-           val result = calculateIMC()
+        btnsubstractAge.setOnClickListener {
+            currentAge -= 1
+            setAge()
+        }
+
+        btnCalculate.setOnClickListener {
+            val result = calculateIMC()
             navigateToResult(result)
+        }
+        btnHistorial.setOnClickListener {
+            val intent = Intent(this, ScrollingActivity_Historial::class.java)
+            startActivity(intent)
         }
     }
 
+    // Navega a la pantalla de resultados y pasa los datos
     private fun navigateToResult(result: Double) {
         val intent = Intent(this, ResultIMCActivity::class.java)
         intent.putExtra(IMC_KEY, result)
+        intent.putExtra("peso", currentWeight.toDouble())
+        intent.putExtra("altura", currentHeight.toDouble() / 100)
         startActivity(intent)
     }
 
-    private fun calculateIMC() : Double {
+    // Calcula el índice de masa corporal
+    private fun calculateIMC(): Double {
         val df = DecimalFormat("#.##")
-        val imc = currentWeight/(currentHeight.toDouble()/100 * currentHeight.toDouble()/100)
-        return  df.format(imc).toDouble()
+        val imc = currentWeight / (currentHeight.toDouble() / 100 * currentHeight.toDouble() / 100)
+        return df.format(imc).toDouble()
     }
 
+    // Actualiza texto de edad
     private fun setAge() {
         tvAge.text = currentAge.toString()
     }
 
+    // Actualiza texto de peso
     private fun setWieght() {
-     tvWeight.text = currentWeight.toString()
+        tvWeight.text = currentWeight.toString()
     }
 
-
+    // Cambia el color del género seleccionado
     private fun setGenderColor() {
         viewMale.setCardBackgroundColor(getBackgraundColor(isMaleSelected))
         viewFemale.setCardBackgroundColor(getBackgraundColor(isFemaleSelected))
-
     }
 
-    private fun getBackgraundColor(isSelectComponet: Boolean):Int { //si es true
+    // Retorna el color correspondiente al estado del componente
+    private fun getBackgraundColor(isSelectComponet: Boolean): Int {
         val colorReference = if (isSelectComponet) {
             R.color.background_component_selected
         } else {
             R.color.background_componet
         }
-       return  ContextCompat.getColor(this, colorReference)
+        return ContextCompat.getColor(this, colorReference)
     }
 
+    // Inicializa la UI al iniciar
     private fun intUI() {
-     setGenderColor()
+        setGenderColor()
         setWieght()
         setAge()
     }

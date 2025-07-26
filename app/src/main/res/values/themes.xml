@@ -31,7 +31,16 @@
     <style name="ToDoSubtitle">
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/todo_subtitle_text</item>
-        <item name = "android:layout_marginHorizontal">32dp</item>
+        <item name="android:layout_marginHorizontal">32dp</item>
     </style>
+
+    <style name="Theme.AndroidBorrador.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.AndroidBorrador.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.AndroidBorrador.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
