@@ -95,6 +95,44 @@ public class BD_imc extends SQLiteOpenHelper {
         return lista;
     }
 
+    public IMCResult obtenerResultadoPorId(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLA_IMC, null, COL_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
+        IMCResult resultado = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            double peso = cursor.getDouble(cursor.getColumnIndexOrThrow(COL_PESO));
+            double altura = cursor.getDouble(cursor.getColumnIndexOrThrow(COL_ALTURA));
+            double resultadoIMC = cursor.getDouble(cursor.getColumnIndexOrThrow(COL_RESULTADO));
+            String fecha = cursor.getString(cursor.getColumnIndexOrThrow(COL_FECHA));
+            resultado = new IMCResult(id, peso, altura, resultadoIMC, fecha);
+        }
+        if (cursor != null) cursor.close();
+        db.close();
+        return resultado;
+    }
+    public int actualizarResultado(int id, double peso, double altura, double resultado) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues valores = new ContentValues();
+        valores.put(COL_PESO, peso);
+        valores.put(COL_ALTURA, altura);
+        valores.put(COL_RESULTADO, resultado);
+
+        // Actualiza también la fecha a la actual
+        String fechaActual = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(new Date());
+        valores.put(COL_FECHA, fechaActual);
+
+        int filasAfectadas = db.update(TABLA_IMC, valores, COL_ID + "=?", new String[]{String.valueOf(id)});
+        db.close();
+        return filasAfectadas; // número de filas modificadas, normalmente 1
+    }
+    public int eliminarResultado(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int filasEliminadas = db.delete(TABLA_IMC, COL_ID + "=?", new String[]{String.valueOf(id)});
+        db.close();
+        return filasEliminadas; // 1 si se eliminó correctamente
+    }
+
+
     /**
      * Elimina todos los registros de la tabla.
      */

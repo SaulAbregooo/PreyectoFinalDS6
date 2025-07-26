@@ -30,14 +30,14 @@ public class activity_creditos extends AppCompatActivity {
          * Código comentado para reproducir un video en un VideoView.
          * Si se necesita, descomentar y configurar el archivo en res/raw.
          */
-        /*
+
         VideoView videoView = findViewById(R.id.videoCreditos);
-        Uri path = Uri.parse("android.resource://com.example.reproducervideo/" + R.raw.video);
+        Uri path = Uri.parse("android.resource://com.souloab.androidborrador/" + R.raw.video);
 
         MediaController mc = new MediaController(this);
         videoView.setMediaController(mc);
         videoView.setVideoURI(path);
         videoView.start();
-        */
+
     }
 }
