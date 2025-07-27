@@ -7,35 +7,30 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.sauloab.androidborrador.R
 import com.sauloab.androidborrador.imccalculator.imcCalculatorActivity
-import com.sauloab.androidborrador.todoapp.ToDoActivity
-
+import com.sauloab.androidborrador.imccalculator.activity_creditos
 class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_menu2)
 
-        val btnSaludaAPP = findViewById<Button>(R.id.btnSaludaAPP)
+        // Botón para ir a IMC
         val btnIMC = findViewById<Button>(R.id.IMCapp)
-        val btnToDo = findViewById<Button>(R.id.btnToDo)
-
-        btnSaludaAPP.setOnClickListener { navegarSaludaApp() }
         btnIMC.setOnClickListener { navegartoIMCApp() }
-        btnToDo.setOnClickListener { navegateToDoApp() }
+
+        // Botón para ir a créditos
+        val btnCreditos = findViewById<Button>(R.id.navegarToCreditos)
+        btnCreditos.setOnClickListener { navegarToCreditos() }
     }
 
-    private fun navegarSaludaApp() {
-        val intent = Intent(this, FirstAppActivity::class.java)
-        startActivity(intent)
-    }
 
     private fun navegartoIMCApp() {
         val intent = Intent(this, imcCalculatorActivity::class.java)
         startActivity(intent)
     }
-
-    private fun navegateToDoApp() {
-        val intent = Intent(this, ToDoActivity::class.java)
+    private fun navegarToCreditos() {
+        val intent = Intent(this, activity_creditos::class.java)
         startActivity(intent)
     }
+
 }

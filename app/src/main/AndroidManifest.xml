@@ -13,9 +13,13 @@
         android:theme="@style/Theme.AndroidBorrador"
         tools:targetApi="31">
         <activity
-            android:name=".todoapp.ToDoActivity"
-            android:theme="@style/Theme.ToDoApp"
+            android:name=".imccalculator.activity_creditos"
             android:exported="false" />
+        <activity
+            android:name=".imccalculator.ScrollingActivity_Historial"
+            android:exported="false"
+            android:label="@string/title_activity_scrolling_historial"
+            android:theme="@style/Theme.AndroidBorrador.NoActionBar" />
         <activity
             android:name=".imccalculator.ResultIMCActivity"
             android:exported="false" />
@@ -31,18 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".FirstActivity.ResultActivity"
-            android:exported="false" />
-        <activity
-            android:name=".layoutspracticas.Practica2"
-            android:exported="false" />
-        <activity
-            android:name=".layoutspracticas.Practica"
-            android:exported="false" />
-        <activity
-            android:name=".FirstActivity.FirstAppActivity"
-            android:exported="true" />
     </application>
 
 </manifest>
